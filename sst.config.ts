@@ -5,7 +5,7 @@ export default {
   config(_input) {
     return {
       name: "test",
-      region: "us-east-1",
+      region: "us-east-1"
     };
   },
   stacks(app) {
@@ -13,8 +13,8 @@ export default {
       const site = new NextjsSite(stack, "site");
 
       stack.addOutputs({
-        SiteUrl: site.url,
+        SiteUrl: site.url
       });
     });
-  },
+  }
 } satisfies SSTConfig;
