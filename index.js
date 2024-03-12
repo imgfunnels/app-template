@@ -151,7 +151,10 @@ function installVariables() {
   console.log("SECRET:", secret);
   // Content template with placeholders for dynamic values
   const content = `NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="${secret}"`;
+NEXTAUTH_SECRET="${secret}"
+DATADOG_API_KEY=""
+DATABASE_URL=""
+`;
 
   // Destination file to be overwritten
   const destinationFile = `${argv.name}/.env`;
