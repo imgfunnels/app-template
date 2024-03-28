@@ -41,14 +41,14 @@ function installPrisma() {
   console.log("Installing Prisma...");
   try {
     execSync(
-      `cd ./${argv.name} && npm install prisma --save-dev && npx prisma && npx prisma init`,
+      `cd ./${argv.name} && npm install prisma --save-dev && yarn prisma init`,
       {
         stdio: "inherit"
       }
     );
 
     execSync(
-      `mkdir -p ./${argv.name}/helpers/Prisma && cat ./helpers/Prisma/db.ts > ./${argv.name}/helpers/Prisma/db.ts`
+      `mkdir -p ./${argv.name}/helpers/Prisma && cp ./helpers/Prisma/db.ts ./${argv.name}/helpers/Prisma/`
     );
 
     console.log("Prisma installed successfully.");
@@ -65,23 +65,23 @@ function installNextAuth() {
       stdio: "inherit"
     });
     execSync(
-      `mkdir -p ./${argv.name}/app/api/auth/\[...nextauth\]/ && touch ./${argv.name}/app/api/auth/\[...nextauth\]/route.ts && cat ./app/api/auth/\[...nextauth\]/route.ts > ./${argv.name}/app/api/auth/\[...nextauth\]/route.ts`,
+      `mkdir -p ./${argv.name}/app/api/auth/\[...nextauth\]/ && cp ./app/api/auth/\[...nextauth\]/route.ts ./${argv.name}/app/api/auth/\[...nextauth\]/`,
       {
         stdio: "inherit"
       }
     );
     execSync(
-      `mkdir -p ./${argv.name}/util && touch ./${argv.name}/util/auth.ts && cat ./util/auth.ts > ./${argv.name}/util/auth.ts`,
+      `mkdir -p ./${argv.name}/util && touch ./${argv.name}/util/auth.ts && cp ./util/auth.ts ./${argv.name}/util/`,
       {
         stdio: "inherit"
       }
     );
 
     execSync(
-      `mkdir -p ./${argv.name}/components/NextAuthProvider && cat ./components/NextAuthProvider/provider.tsx > ./${argv.name}/components/NextAuthProvider/next-auth-provider.tsx`
+      `mkdir -p ./${argv.name}/components/NextAuthProvider && cp ./components/NextAuthProvider/next-auth-provider.tsx ./${argv.name}/components/NextAuthProvider/`
     );
     execSync(
-      `mkdir -p ./${argv.name}/components/Debugger && cat ./components/Debugger/debugger.tsx > ./${argv.name}/components/Debugger/debugger.tsx`
+      `mkdir -p ./${argv.name}/components/Debugger && cp ./components/Debugger/debugger.tsx ./${argv.name}/components/Debugger/`
     );
 
     console.log("Next Auth installed successfully.");
@@ -93,7 +93,7 @@ function installNextAuth() {
 
 function installWinston() {
   execSync(
-    `mkdir -p ./${argv.name}/helpers/Logger && cat ./helpers/Logger/winston.ts > ./${argv.name}/helpers/Logger/winston.ts`
+    `mkdir -p ./${argv.name}/helpers/Logger && cp ./helpers/Logger/winston.ts ./${argv.name}/helpers/Logger/`
   );
   console.log("Installing Winston...");
   try {
@@ -110,17 +110,12 @@ function installHighLevel() {
   execSync(`npm install qs`);
   execSync(`npm install axios`);
   execSync(
-    `mkdir -p ./${argv.name}/api/lead-connector && cat ./api/lead-connector/route.ts > ./${argv.name}/helpers/lead-connector/route.ts`
+    `mkdir -p ./${argv.name}/app/api/lead-connector && cp ./app/api/lead-connector/route.ts ./${argv.name}/app/api/lead-connector/`
   );
   execSync(
-    `mkdir -p ./${argv.name}/helpers/HighLevel && cat ./helpers/HighLevel/highlevel.ts > ./${argv.name}/helpers/HighLevel/highlevel.ts`
+    `mkdir -p ./${argv.name}/helpers/HighLevel && cp -r ./helpers/HighLevel/* ./${argv.name}/helpers/HighLevel`
   );
-  execSync(
-    `cat ./helpers/HighLevel/index.ts > ./${argv.name}/helpers/HighLevel/index.ts`
-  );
-  execSync(
-    `cat ./helpers/HighLevel/model.ts > ./${argv.name}/helpers/HighLevel/model.ts`
-  );
+
   try {
   } catch (error) {
     console.error("Error installing HighLevel:", error.message);
@@ -130,18 +125,18 @@ function installHighLevel() {
 
 function installContextProvider() {
   execSync(
-    `mkdir -p ./${argv.name}/components/ContextProvider && cat ./helpers/ContextProvider/context-provider.tsx > ./${argv.name}/helpers/ContextProvider/context-provider.tsx`
+    `mkdir -p ./${argv.name}/components/ContextProvider && cp ./components/ContextProvider/context-provider.tsx ./${argv.name}/components/ContextProvider/`
   );
 }
 
-function installChakraProvider() {
+function installChakraUiProvider() {
   execSync(
-    `mkdir -p ./${argv.name}/components/ChakraProvider && cat ./helpers/ChakraProvider/chakra-provider.tsx > ./${argv.name}/helpers/ChakraProvider/chakra-provider.tsx`
+    `mkdir -p ./${argv.name}/components/ChakraProvider && cp ./components/ChakraProvider/chakra-provider.tsx ./${argv.name}/components/ChakraProvider/`
   );
 }
 
 function installLayout() {
-  execSync(`cat ./app/layout.tsx > ./${argv.name}/app/layout.tsx`);
+  execSync(`cp ./app/layout.tsx ./${argv.name}/app/`);
 }
 
 function installVariables() {
@@ -171,7 +166,7 @@ DATABASE_URL=""
 
 function installGitIgnoreFile() {
   execSync(`touch ./${argv.name}/.gitignore`);
-  execSync(`cat .gitignore > ./${argv.name}/.gitignore`);
+  execSync(`cp ./.gitignore ./${argv.name}/`);
 }
 
 createNextApp();
@@ -181,10 +176,14 @@ installNextAuth();
 installWinston();
 installHighLevel();
 installContextProvider();
-installChakraProvider();
+installChakraUiProvider();
 installLayout();
 installVariables();
 installGitIgnoreFile();
+
+// installGit()
+// pushToGit()
+// deploy()
 
 console.log("CLI process completed.");
 console.log(
